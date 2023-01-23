@@ -6,3 +6,4 @@ export * from './providers';
 export * from './scripts';
 export * from './transaction';
 export * from './wallet';
+console.log('this is local forked mesh 12-4-2022');

@@ -155,7 +155,7 @@ export class KoiosProvider implements IFetcher, ISubmitter {
         return <AssetMetadata>{
           ...data[0].minting_tx_metadata[721][policyId][toUTF8(assetName)],
           fingerprint: data[0].fingerprint,
-          totalSupply: data[0].totalSupply,
+          totalSupply: data[0].total_supply,
           mintingTxHash: data[0].minting_tx_hash,
           mintCount: data[0].mint_cnt,
         };
