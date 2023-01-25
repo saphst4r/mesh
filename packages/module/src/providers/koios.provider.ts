@@ -1,10 +1,11 @@
 import axios, { AxiosInstance } from 'axios';
-import { POLICY_ID_LENGTH, SUPPORTED_HANDLES } from '@mesh/common/constants';
+import { SUPPORTED_HANDLES } from '@mesh/common/constants';
 import { IFetcher, ISubmitter } from '@mesh/common/contracts';
 import {
   deserializeNativeScript,
   fromNativeScript,
   fromUTF8,
+  parseAssetUnit,
   parseHttpError,
   resolveRewardAddress,
   toBytes,
@@ -119,11 +120,7 @@ export class KoiosProvider implements IFetcher, ISubmitter {
     asset: string
   ): Promise<{ address: string; quantity: string }[]> {
     try {
-      const policyId = asset.slice(0, POLICY_ID_LENGTH);
-      const assetName = asset.includes('.')
-        ? fromUTF8(asset.split('.')[1])
-        : asset.slice(POLICY_ID_LENGTH);
-
+      const { policyId, assetName } = parseAssetUnit(asset);
       const { data, status } = await this._axiosInstance.get(
         `asset_address_list?_asset_policy=${policyId}&_asset_name=${assetName}`
       );
@@ -142,11 +139,7 @@ export class KoiosProvider implements IFetcher, ISubmitter {
 
   async fetchAssetMetadata(asset: string): Promise<AssetMetadata> {
     try {
-      const policyId = asset.slice(0, POLICY_ID_LENGTH);
-      const assetName = asset.includes('.')
-        ? fromUTF8(asset.split('.')[1])
-        : asset.slice(POLICY_ID_LENGTH);
-
+      const { policyId, assetName } = parseAssetUnit(asset);
       const { data, status } = await this._axiosInstance.get(
         `asset_info?_asset_policy=${policyId}&_asset_name=${assetName}`
       );

@@ -3,6 +3,7 @@ import { POLICY_ID_LENGTH, SUPPORTED_HANDLES } from '@mesh/common/constants';
 import { IFetcher, ISubmitter } from '@mesh/common/contracts';
 import {
   fromUTF8,
+  parseAssetUnit,
   parseHttpError,
   resolveRewardAddress,
   toBytes,
@@ -129,8 +130,9 @@ export class BlockfrostProvider implements IFetcher, ISubmitter {
       page = 1,
       addresses: T[] = []
     ): Promise<T[]> => {
+      const { policyId, assetName } = parseAssetUnit(asset);
       const { data, status } = await this._axiosInstance.get(
-        `assets/${asset}/addresses?page=${page}`
+        `assets/${policyId}${assetName}/addresses?page=${page}`
       );
 
       if (status === 200)
@@ -150,10 +152,7 @@ export class BlockfrostProvider implements IFetcher, ISubmitter {
 
   async fetchAssetMetadata(asset: string): Promise<AssetMetadata> {
     try {
-      const policyId = asset.slice(0, POLICY_ID_LENGTH);
-      const assetName = asset.includes('.')
-        ? fromUTF8(asset.split('.')[1])
-        : asset.slice(POLICY_ID_LENGTH);
+      const { policyId, assetName } = parseAssetUnit(asset);
       const { data, status } = await this._axiosInstance.get(
         `assets/${policyId}${assetName}`
       );

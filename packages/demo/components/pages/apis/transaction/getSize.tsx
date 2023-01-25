@@ -62,7 +62,7 @@ export default function GetSize() {
   return (
     <SectionTwoCol
       sidebarTo="getSize"
-      header="Get transaction size"
+      header="Get Transaction Size"
       leftFn={Left({ userInput })}
       rightFn={Right({ userInput, updateField })}
     />
