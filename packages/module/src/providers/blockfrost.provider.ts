@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { POLICY_ID_LENGTH, SUPPORTED_HANDLES } from '@mesh/common/constants';
+import { SUPPORTED_HANDLES } from '@mesh/common/constants';
 import { IFetcher, ISubmitter } from '@mesh/common/contracts';
 import {
   fromUTF8,
