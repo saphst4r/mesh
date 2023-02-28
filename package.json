@@ -27,5 +27,8 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@emurgo/cardano-serialization-lib-nodejs": "^11.2.1"
+  }
 }
