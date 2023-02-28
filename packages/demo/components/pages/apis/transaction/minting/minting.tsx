@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
-import Codeblock from '../../../ui/codeblock';
-import Card from '../../../ui/card';
-import RunDemoButton from '../../../common/runDemoButton';
-import RunDemoResult from '../../../common/runDemoResult';
-import SectionTwoCol from '../../../common/sectionTwoCol';
+import Codeblock from '../../../../ui/codeblock';
+import Card from '../../../../ui/card';
+import RunDemoButton from '../../../../common/runDemoButton';
+import RunDemoResult from '../../../../common/runDemoResult';
+import SectionTwoCol from '../../../../common/sectionTwoCol';
 import { useWallet } from '@meshsdk/react';
-import ConnectCipWallet from '../../../common/connectCipWallet';
-import Input from '../../../ui/input';
-import Button from '../../../ui/button';
+import ConnectCipWallet from '../../../../common/connectCipWallet';
+import Input from '../../../../ui/input';
+import Button from '../../../../ui/button';
 import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/solid';
-import { demoAddresses } from '../../../../configs/demo';
+import { demoAddresses } from '../../../../../configs/demo';
 import { Transaction, ForgeScript, AssetMetadata } from '@meshsdk/core';
 import type { Mint } from '@meshsdk/core';
-import Textarea from '../../../ui/textarea';
+import Textarea from '../../../../ui/textarea';
 import Link from 'next/link';
 
 const defaultMetadata = {
@@ -140,8 +140,13 @@ function Left({ userInput }) {
   codeSnippet += `const signedTx = await wallet.signTx(unsignedTx);\n`;
   codeSnippet += `const txHash = await wallet.submitTx(signedTx);`;
 
-  let codeSnippet1 = `const usedAddress = await wallet.getUsedAddresses();\n`;
+  let codeSnippet1 = ``;
+  codeSnippet1 += `// use browser wallet to get address\n`;
+  codeSnippet1 += `const usedAddress = await wallet.getUsedAddresses();\n`;
   codeSnippet1 += `const address = usedAddress[0];\n`;
+  codeSnippet1 += `// use app wallet to get address\n`;
+  codeSnippet1 += `const address = wallet.getPaymentAddress();\n\n`;
+  codeSnippet1 += `// create forgingScript\n`;
   codeSnippet1 += `const forgingScript = ForgeScript.withOneSignature(address);`;
 
   let codeSnippet2 = `const assetMetadata: AssetMetadata = ${JSON.stringify(
@@ -210,8 +215,8 @@ function Left({ userInput }) {
       <p>
         To get the <code>keyHash</code>, use the{' '}
         <code>resolvePaymentKeyHash()</code>. To get the slot, use the{' '}
-        <code>resolveSlotNo()</code>. See{' '}
-        <Link href="/apis/resolvers">Resolvers</Link>.
+        <code>resolveSlotNo()</code>. Check out{' '}
+        <Link href="/apis/resolvers">Resolvers</Link> on how to use these functions.
       </p>
       <p>
         Note: If you were expecting a particular Policy ID but received an
@@ -231,6 +236,7 @@ function Right({ userInput, updateField }) {
 
   async function runDemo() {
     setState(1);
+    setResponse(null);
     setResponseError(null);
 
     try {

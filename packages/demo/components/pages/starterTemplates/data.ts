@@ -24,6 +24,18 @@ export const templates = {
   //   image: 'marketplace.png',
   //   comingsoon: true,
   // },
+  signin: {
+    title: 'Sign In with Wallet',
+    desc: `Cryptographically prove the ownership of a wallet.`,
+    cli: 'signin',
+    image: 'signin.png',
+  },
+  ecommerce: {
+    title: 'Ecommerce Store',
+    desc: `An ecommerce store where customers can pay with Cardano stable coins.`,
+    cli: 'ecommerce',
+    image: 'ecommerce.png',
+  },
 };
 
 export const languages = {
